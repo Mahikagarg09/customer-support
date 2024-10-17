@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = ({ heading, paragraph, linkName, linkUrl = "#" }) => {
   return (
@@ -16,12 +16,12 @@ const Header = ({ heading, paragraph, linkName, linkUrl = "#" }) => {
       </h2>
       <p className="mt-2 text-center text-sm text-gray-600">
         {paragraph}{" "}
-        {/* <Link
+        <Link
           to={linkUrl}
-          className="font-medium text-purple-600 hover:text-purple-500"
+          className="font-medium text-blue-600 hover:text-blue-500"
         >
           {linkName}
-        </Link> */}
+        </Link>
       </p>
     </div>
   );
