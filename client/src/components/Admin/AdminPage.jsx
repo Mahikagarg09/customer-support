@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const AdminPage = () => {
   // Static data for queries
@@ -48,12 +48,12 @@ const AdminPage = () => {
               key={index}
               className="border-2 border-gray-200 p-4 m-4 rounded-lg"
             >
-              <div class="flex items-center gap-8">
-                <img class="w-12 h-12 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ41A81cAVOwJ6e58SZMxg_Fh-VSwnYIWb3Bw&s" alt="" />
-                <div class="font-medium dark:text-white">
+              <div className="flex items-center gap-8">
+                <img className="w-12 h-12 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ41A81cAVOwJ6e58SZMxg_Fh-VSwnYIWb3Bw&s" alt="" />
+                <div className="font-medium dark:text-white">
                   <div className="text-blue-950 text-xl">{query.userId}</div>
-                  <div class="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
+                  <div className="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
                 </div>
               </div>
             </div>

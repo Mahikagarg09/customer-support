@@ -1,5 +1,3 @@
-import React from "react";
-
 const CustomerPage = () => {
   // Static data for past queries
   const pastQueries = [
@@ -53,14 +51,14 @@ const CustomerPage = () => {
                 >
                   {/* <p className="text-md">{query.message}</p>
                   <p className="text-xs text-white">{query.timestamp}</p> */}
-                  <div class="flex items-center gap-8">
-                    <img class="w-12 h-12 rounded-full" src="https://cdn-icons-png.flaticon.com/512/3649/3649789.png" alt="" />
-                    <div class="font-medium dark:text-white">
-                      <div class="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
+                  <div className="flex items-center gap-8">
+                    <img className="w-12 h-12 rounded-full" src="https://cdn-icons-png.flaticon.com/512/3649/3649789.png" alt="" />
+                    <div className="font-medium dark:text-white">
+                      <div className="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
                       
                     </div>
                   </div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
                 </div>
               ))
             )}

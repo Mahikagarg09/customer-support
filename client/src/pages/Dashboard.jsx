@@ -1,4 +1,3 @@
-import React from "react";
 import AdminPage from "../components/Admin/AdminPage";
 import CustomerPage from "../components/Customer/CustomerPage";
 
