@@ -3,18 +3,21 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv= require('dotenv').config();
 
+const userRoute = require("./routes/user");
 
 const app = express();
 const http = require("http").createServer(app);
 
 // Constants
 const PORT = 5000;
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = "mongodb+srv://mahikagarg23:vA7N2571OUC5EAMJ@cluster0.qtsb9h6.mongodb.net/support-chat";
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
+//routes
+app.use("/api/user", userRoute);
 
 // MongoDB Connection
 mongoose
