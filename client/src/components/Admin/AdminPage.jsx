@@ -71,6 +71,7 @@ const AdminPage = () => {
   
   return (
     <>
+    <div className="text-5xl text-center font-extrabold text-blue-950 mt-5">Handle Incoming Queries</div>
       <div className="w-[90vw] lg:w-[50vw] mx-auto">
         <input
           type="text"
@@ -81,7 +82,7 @@ const AdminPage = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="flex justify-end">
-          <button className="py-2 px-4 mt-2 bg-blue-500 text-white rounded-lg" onClick={getAgentSlots}>
+          <button className="py-2 px-4 mt-2 bg-blue-950 text-white rounded-lg hover:bg-blue-500" onClick={getAgentSlots}>
             Get Slots
           </button>
         </div>

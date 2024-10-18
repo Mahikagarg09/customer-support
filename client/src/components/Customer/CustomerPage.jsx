@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
@@ -70,8 +71,8 @@ const CustomerPage = () => {
       <div>
         {/* Submit Query */}
         <form className="mt-7" onSubmit={handleSubmit}>
-          <h1 className="text-xl my-5 font-medium">
-            Welcome <span className="text-blue-950 font-bold">{username}</span>! You can ask your queries here, and we will respond
+          <h1 className="text-2xl my-5 font-medium">
+            Welcome <span className="text-blue-950 text-3xl font-bold">{username}</span>! You can ask your queries here, and we will respond
             to you as soon as possible.
           </h1>
           <div className="flex flex-col gap-5">
