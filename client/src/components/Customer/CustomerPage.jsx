@@ -19,7 +19,7 @@ const CustomerPage = () => {
               name="query"
               id="query"
               cols="30"
-              rows="10"
+              rows="5"
               className="border-2 border-gray-300 rounded-lg p-3 focus:outline-none"
               placeholder="Type your query here..."
               value="This is a static query."
@@ -49,8 +49,6 @@ const CustomerPage = () => {
                   key={index}
                   className="border-2 border-gray-200 rounded-lg p-3 flex justify-between mb-3"
                 >
-                  {/* <p className="text-md">{query.message}</p>
-                  <p className="text-xs text-white">{query.timestamp}</p> */}
                   <div className="flex items-center gap-8">
                     <img className="w-12 h-12 rounded-full" src="https://cdn-icons-png.flaticon.com/512/3649/3649789.png" alt="" />
                     <div className="font-medium dark:text-white">
