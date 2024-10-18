@@ -40,7 +40,7 @@ const Navbar = () => {
                                 {isAdmin ? "All Queries" : "My Queries"}
                             </Link>
                             <Link
-                                to={`${isAdmin ? "/handleQuery" : "/handled"}`}
+                                to={`${isAdmin ? "/handleQuery" : "/queries"}`}
                                 className="font-medium  hover:text-white text-gray-400"
                             >
                                 {isAdmin ? "Process Query" : "Processed Queries"}
@@ -76,8 +76,8 @@ const Navbar = () => {
                         <Link to="/" className="mt-5">
                             {isAdmin ? "All Queries" : "My Queries"}
                         </Link>
-                        <Link to={`${isAdmin ? "/toResolve" : "/resolve"}`}>
-                            {isAdmin ? "To Resolve" : "Resolved Queries"}
+                        <Link to={`${isAdmin ? "/handleQuery" : "/queries"}`}>
+                            {isAdmin ? "Process Query" : "Processed Queries"}
                         </Link>
                         <button onClick={handleLogout}>Signout</button>
                     </div>

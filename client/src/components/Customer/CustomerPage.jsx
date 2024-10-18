@@ -11,14 +11,14 @@ const CustomerPage = () => {
 
   // Define the socket reference
   const socket = useRef();
+  const username = JSON.parse(
+    localStorage.getItem("branchInternational")
+  ).username;
 
   // Function to submit the query
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const username = JSON.parse(
-        localStorage.getItem("branchInternational")
-      ).username;
       const response = await axios.post(addQuery, {
         userId: username,
         message: message,
@@ -38,9 +38,6 @@ const CustomerPage = () => {
   // Function to get all the queries
   const fetchQueries = async () => {
     try {
-      const username = JSON.parse(
-        localStorage.getItem("branchInternational")
-      ).username;
       const response = await axios.post(getQueries, {
         userId: username,
       });
@@ -74,7 +71,7 @@ const CustomerPage = () => {
         {/* Submit Query */}
         <form className="mt-7" onSubmit={handleSubmit}>
           <h1 className="text-xl my-5 font-medium">
-            Welcome Customer! You can ask your queries here, and we will respond
+            Welcome <span className="text-blue-950 font-bold">{username}</span>! You can ask your queries here, and we will respond
             to you as soon as possible.
           </h1>
           <div className="flex flex-col gap-5">
@@ -82,7 +79,7 @@ const CustomerPage = () => {
               name="query"
               id="query"
               cols="30"
-              rows="5"
+              rows="4"
               className="border-2 border-gray-300 rounded-lg p-3 focus:outline-none"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -96,10 +93,10 @@ const CustomerPage = () => {
           </div>
         </form>
 
-        {/* Past Queries */}
-        <div className="mt-7 p-2">
-          <h1 className="text-xl my-5 font-medium text-center">
-            Your Past Queries
+        {/* Current Unresolved Queries */}
+        <div className="mt-5 p-2">
+          <h1 className="text-4xl text-blue-950 my-5 font-bold text-center">
+            Your Queries
           </h1>
           <div className="my-12">
             {queries.length === 0 ? (

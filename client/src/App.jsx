@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import AdminSolveQuery from './pages/AdminSolveQuery'
+import CustomerQueries from './pages/CustomerQueries'
 
 export default function App() {
   return (
@@ -18,6 +19,10 @@ export default function App() {
           <Route
             path="/handleQuery"
             element={<ProtectedRoute Component={AdminSolveQuery} />}
+          />
+          <Route
+            path="/queries"
+            element={<ProtectedRoute Component={CustomerQueries} />}
           />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
