@@ -6,8 +6,8 @@ const CustomerPage = () => {
   ];
 
   return (
-    <div className="px-9">
-      <div className="md:grid md:grid-cols-2 gap-20">
+    <div className="px-9 lg:px-64 xl:px-80">
+      <div>
         {/* Submit Query */}
         <form className="mt-7">
           <h1 className="text-xl my-5 font-medium">

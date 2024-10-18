@@ -35,7 +35,7 @@ const Navbar = () => {
                             </Link>
                         </div>
                         {/* primary */}
-                        <div className="hidden lg:flex gap-8 ">
+                        <div className="hidden md:flex gap-8 ">
                             <Link to="/" className="font-medium hover:text-white text-gray-400">
                                 {isAdmin ? "All Queries" : "My Queries"}
                             </Link>
@@ -49,21 +49,16 @@ const Navbar = () => {
                     </div>
                     {/* secondary */}
                     <div className="flex gap-6">
-                        <div className="hidden lg:flex items-center gap-5">
-                            <Link to="/signup">
-                                <button className="bg-blue-600 px-3 py-2 text-white rounded-lg hover:bg-blue-500 font-medium">
-                                    Signup
-                                </button>
-                            </Link>
+                        <div className="hidden md:flex items-center gap-5">
                             <button
                                 className="bg-blue-600 px-3 py-2 text-white rounded-lg hover:bg-blue-500 font-medium"
                                 onClick={handleLogout}
                             >
-                                Logout
+                                Signout
                             </button>
                         </div>
                         {/* Mobile navigation toggle */}
-                        <div className="lg:hidden flex items-center">
+                        <div className="md:hidden flex items-center">
                             <button onClick={() => setToggleMenu(!toggleMenu)}>
                                 <Bars3Icon className="h-6" />
                             </button>
@@ -73,7 +68,7 @@ const Navbar = () => {
             </div>
             {/* mobile navigation */}
             <div
-                className={`fixed z-40 w-full bg-gray-100 overflow-hidden flex flex-col lg:hidden gap-12  origin-top duration-700 ${!toggleMenu ? "h-0" : "h-full"
+                className={`fixed z-40 w-full bg-gray-100 overflow-hidden flex flex-col md:hidden gap-12  origin-top duration-700 ${!toggleMenu ? "h-0" : "h-full"
                     }`}
             >
                 <div className="px-8">
@@ -84,8 +79,7 @@ const Navbar = () => {
                         <Link to={`${isAdmin ? "/toResolve" : "/resolve"}`}>
                             {isAdmin ? "To Resolve" : "Resolved Queries"}
                         </Link>
-                        <Link to="/signup">Signup</Link>
-                        <button onClick={handleLogout}>Logout</button>
+                        <button onClick={handleLogout}>Signout</button>
                     </div>
                 </div>
             </div>
