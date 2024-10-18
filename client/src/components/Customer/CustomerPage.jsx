@@ -72,7 +72,7 @@ const CustomerPage = () => {
         {/* Submit Query */}
         <form className="mt-7" onSubmit={handleSubmit}>
           <h1 className="text-2xl my-5 font-medium">
-            Welcome <span className="text-blue-950 text-3xl font-bold">{username}</span>! You can ask your queries here, and we will respond
+            Welcome <span className="text-blue-950 text-3xl font-bold mt-5">{username}</span>! You can ask your queries here, and we will respond
             to you as soon as possible.
           </h1>
           <div className="flex flex-col gap-5">

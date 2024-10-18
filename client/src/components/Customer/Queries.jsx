@@ -51,7 +51,7 @@ const Queries = () => {
 
     return (
         <div className="p-4">
-            <div className="text-5xl text-center font-extrabold text-blue-950">Resolved Queries</div>
+            <div className="text-5xl mt-5 text-center font-extrabold text-blue-950">Resolved Queries</div>
             <h1 className="text-xl text-center font-medium text-gray-900 mt-10 mb-5">
                 Hi {username}, your queries are resolved by our team
             </h1>

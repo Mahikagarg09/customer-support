@@ -82,7 +82,7 @@ const HandleQuery = () => {
 
     return (
         <>
-            <div className="text-5xl text-center font-extrabold text-blue-950 mt-3">Handle Queries</div>
+            <div className="text-5xl text-center font-extrabold text-blue-950 mt-5">Handle Queries</div>
             <div className="w-[60vw] mx-auto my-9">
                 {queries.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">

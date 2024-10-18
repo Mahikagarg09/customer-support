@@ -1,12 +1,12 @@
 {
   "name": "branch-international",
   "version": "1.0.0",
-  "description": "Branch International Assignment - Muskan Garg",
+  "description": "Branch International Assignment - Mahika Garg",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Muskan Garg",
+  "author": "Mahika Garg",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
