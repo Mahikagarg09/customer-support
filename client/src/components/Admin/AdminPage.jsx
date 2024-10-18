@@ -1,28 +1,77 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { io } from "socket.io-client";
+import { getQueries, host, getSlots } from "../../routes";
+import { toast } from "react-toastify";
 
 const AdminPage = () => {
   // Static data for queries
-  const [queries] = useState([
-    {
-      message: "How can I reset my password?",
-      userId: "john_doe",
-      timestamp: "10/17/2024, 11:00 AM",
-    },
-    {
-      message: "I haven't received my order yet.",
-      userId: "jane_smith",
-      timestamp: "10/16/2024, 9:30 AM",
-    },
-  ]);
+  const username = JSON.parse(localStorage.getItem("branchInternational")).username;
 
+  const navigate = useNavigate();
+
+  // Define the state variables
+  const [queries, setQueries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const socket = useRef();
 
-  // Filter queries based on search term
-  const filteredQueries = queries.filter(
-    (query) =>
-      query.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      query.userId.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Function to get all the queries
+  const fetchQueries = async () => {
+    try {
+      const response = await axios.post(getQueries, {
+        userId: "",
+      });
+      setQueries(response.data.queries);
+    } catch (error) {
+      toast.error("Failed to fetch queries");
+    }
+  };
+
+  // Initialize socket connection and listen for new messages
+  useEffect(() => {
+    fetchQueries();
+    socket.current = io(host);
+    socket.current.on("message", (msg) => {
+      setQueries((prevQueries) => [
+        ...prevQueries,
+        {
+          message: msg.message,
+          userId: msg.userId,
+          timestamp: Date.now(),
+          messages: [], // Assuming it gets populated later
+        },
+      ]);
+    });
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
+
+  // Filter queries based on search term (both username and message)
+  const filteredQueries = queries.filter((query) => {
+    const messageMatches = query.messages.some((msg) =>
+      msg.message.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const userIdMatches = query.userId.toLowerCase().includes(searchTerm.toLowerCase());
+    return messageMatches || userIdMatches;
+  });
+
+  // Handle get slots button click
+  const getAdminSlots = async () => {
+    try {
+      const ids = queries.slice(0, 5).map((query) => query._id);
+      await axios.post(getSlots, {
+        userId: username,
+        ids,
+      });
+      navigate("/toResolve");
+      toast.success("Queries assigned successfully");
+    } catch (error) {
+      toast.error("Failed to assign queries");
+    }
+  };
 
   return (
     <>
@@ -36,7 +85,7 @@ const AdminPage = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="flex justify-end">
-          <button className="py-2 px-4 mt-2 bg-blue-500 text-white rounded-lg">
+          <button className="py-2 px-4 mt-2 bg-blue-500 text-white rounded-lg" onClick={getAdminSlots}>
             Get Slots
           </button>
         </div>
@@ -52,7 +101,7 @@ const AdminPage = () => {
                 <img className="w-12 h-12 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ41A81cAVOwJ6e58SZMxg_Fh-VSwnYIWb3Bw&s" alt="" />
                 <div className="font-medium dark:text-white">
                   <div className="text-blue-950 text-xl">{query.userId}</div>
-                  <div className="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
+                  <div className="text-base text-gray-500 dark:text-gray-400">{query.messages[0].message}</div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
                 </div>
               </div>
