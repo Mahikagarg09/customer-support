@@ -8,7 +8,9 @@ import { toast } from "react-toastify";
 
 const AdminPage = () => {
   // Static data for queries
-  const username = JSON.parse(localStorage.getItem("branchInternational")).username;
+  const username = JSON.parse(
+    localStorage.getItem("branchInternational")
+  ).username;
 
   const navigate = useNavigate();
 
@@ -36,12 +38,7 @@ const AdminPage = () => {
     socket.current.on("message", (msg) => {
       setQueries((prevQueries) => [
         ...prevQueries,
-        {
-          message: msg.message,
-          userId: msg.userId,
-          timestamp: Date.now(),
-          messages: [], // Assuming it gets populated later
-        },
+        { message: msg.message, userId: msg.userId, timestamp: Date.now() },
       ]);
     });
     return () => {
@@ -50,16 +47,14 @@ const AdminPage = () => {
   }, []);
 
   // Filter queries based on search term (both username and message)
-  const filteredQueries = queries.filter((query) => {
-    const messageMatches = query.messages.some((msg) =>
-      msg.message.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    const userIdMatches = query.userId.toLowerCase().includes(searchTerm.toLowerCase());
-    return messageMatches || userIdMatches;
-  });
+  const filteredQueries = queries.filter(
+    (query) =>
+      query.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      query.userId.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Handle get slots button click
-  const getAdminSlots = async () => {
+  const getSlots = async () => {
     try {
       const ids = queries.slice(0, 5).map((query) => query._id);
       await axios.post(getSlots, {
@@ -72,7 +67,7 @@ const AdminPage = () => {
       toast.error("Failed to assign queries");
     }
   };
-
+  
   return (
     <>
       <div className="w-[90vw] lg:w-[50vw] mx-auto">
@@ -85,7 +80,7 @@ const AdminPage = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="flex justify-end">
-          <button className="py-2 px-4 mt-2 bg-blue-500 text-white rounded-lg" onClick={getAdminSlots}>
+          <button className="py-2 px-4 mt-2 bg-blue-500 text-white rounded-lg" onClick={getSlots}>
             Get Slots
           </button>
         </div>
@@ -101,7 +96,7 @@ const AdminPage = () => {
                 <img className="w-12 h-12 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ41A81cAVOwJ6e58SZMxg_Fh-VSwnYIWb3Bw&s" alt="" />
                 <div className="font-medium dark:text-white">
                   <div className="text-blue-950 text-xl">{query.userId}</div>
-                  <div className="text-base text-gray-500 dark:text-gray-400">{query.messages[0].message}</div>
+                  <div className="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
                 </div>
               </div>
@@ -112,7 +107,7 @@ const AdminPage = () => {
         )}
       </div>
     </>
-  );
+  )
 };
 
 export default AdminPage;

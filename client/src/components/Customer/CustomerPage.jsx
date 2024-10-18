@@ -1,93 +1,75 @@
-import { useState, useEffect} from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
-import { host, addQuery, getCurrentCustomerQueries } from "../../routes"
-import ChatModal from "../Chat";
-
-const socket = io(host);
+import { toast } from "react-toastify";
+import { host, addQuery, getQueries } from "../../routes";
 
 const CustomerPage = () => {
+  const [message, setMessage] = useState("");
+  const [queries, setQueries] = useState([]);
 
-  const id = JSON.parse(
-    localStorage.getItem("branchInternational")
-  )._id;
-  // State for the query input and past queries
-  const [currentQuery, setCurrentQuery] = useState('');
-  const [pastQueries, setPastQueries] = useState([]);
+  // Define the socket reference
+  const socket = useRef();
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedQueryId, setSelectedQueryId] = useState(null);
-
-  const handleOpenModal = (queryId) => {
-    setSelectedQueryId(queryId); // Set the query ID
-    setModalOpen(true); // Open the modal
-  };
-
-  // Fetch past queries on component mount
-  useEffect(() => {
-    const fetchQueries = async () => {
-      try {
-        const response = await axios.post(getCurrentCustomerQueries, {
-          userId: `${id}` // Replace with the actual user ID
-        });
-        setPastQueries(response.data.queries || []);
-        console.log(pastQueries)
-      } catch (error) {
-        console.error("Error fetching past queries:", error);
-        toast.error("Failed to load past queries.");
-      }
-    };
-
-    fetchQueries();
-
-    // Listen for new messages from Socket.io
-    socket.on('message', (data) => {
-      setPastQueries((prevQueries) => [...prevQueries, { message: data.message, timestamp: new Date() }]);
-    });
-
-    return () => {
-      socket.off('message'); // Clean up the listener
-    };
-  }, [id, pastQueries]);
-
-  // Handle query submission
+  // Function to submit the query
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!currentQuery) {
-      toast.warn("Please enter a query before submitting.");
-      return;
-    }
-
     try {
+      const username = JSON.parse(
+        localStorage.getItem("branchInternational")
+      ).username;
       const response = await axios.post(addQuery, {
-        userId: `${id}`, // Replace with the actual user ID
-        sender: `${id}`,
-        message: currentQuery,
+        userId: username,
+        message: message,
       });
-
-      if (response.data.message === 'Message saved successfully') {
-        // Emit the message through Socket.io
-        socket.emit('message', { userId: `${id}`, message: currentQuery });
-
-        // Clear the input field
-        setCurrentQuery('');
-        toast.success("Your query has been submitted successfully!");
-        // Optionally, refresh past queries
-        // fetchQueries();
+      if (response.data.message === "Query added successfully") {
+        socket.current.emit("message", { userId: username, message });
+        toast.success("Query submitted successfully");
+        setMessage("");
       } else {
-        toast.error("Error saving the query: " + response.data.message);
+        toast.error("Failed to submit query");
       }
     } catch (error) {
-      console.error("Error submitting the query:", error);
-      toast.error("Failed to submit your query.");
+      toast.error("Failed to submit query");
     }
   };
+
+  // Function to get all the queries
+  const fetchQueries = async () => {
+    try {
+      const username = JSON.parse(
+        localStorage.getItem("branchInternational")
+      ).username;
+      const response = await axios.post(getQueries, {
+        userId: username,
+      });
+      setQueries(response.data.queries);
+    } catch (error) {
+      toast.error("Failed to fetch queries");
+    }
+  };
+
+  // Fetch all the queries using useEffect and socket.io
+  useEffect(() => {
+    fetchQueries();
+    socket.current = io(host);
+    if (socket.current) {
+      socket.current.on("message", (msg) => {
+        setQueries((queries) => [
+          ...queries,
+          { message: msg.message, timestamp: Date.now() },
+        ]);
+      });
+    }
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
+
 
   return (
     <div className="px-9 lg:px-64 xl:px-80">
-      <ToastContainer /> {/* Toast container for notifications */}
       <div>
         {/* Submit Query */}
         <form className="mt-7" onSubmit={handleSubmit}>
@@ -102,13 +84,13 @@ const CustomerPage = () => {
               cols="30"
               rows="5"
               className="border-2 border-gray-300 rounded-lg p-3 focus:outline-none"
-              placeholder="Type your query here..."
-              value={currentQuery}
-              onChange={(e) => setCurrentQuery(e.target.value)}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
             ></textarea>
           </div>
           <div className="flex justify-end my-5">
-            <button type="submit" className="bg-blue-500 px-5 py-2 text-white rounded-lg hover:bg-blue-950 font-medium">
+            <button className="bg-blue-500 px-5 py-2 text-white rounded-lg hover:bg-blue-950 font-medium"
+              onClick={handleSubmit}>
               Submit
             </button>
           </div>
@@ -120,21 +102,21 @@ const CustomerPage = () => {
             Your Past Queries
           </h1>
           <div className="my-12">
-            {pastQueries.length === 0 ? (
+            {queries.length === 0 ? (
               <h1 className="text-center text-md font-medium">
                 No queries found
               </h1>
             ) : (
-              pastQueries.map((query, index) => (
+              queries.map((query, index) => (
                 <div
                   key={index}
-                  className="border-2 border-gray-200 rounded-lg p-3 flex justify-between mb-3 cursor-pointer"
-                  onClick={() => handleOpenModal(query._id)}
+                  className="border-2 border-gray-200 rounded-lg p-3 flex justify-between mb-3"
                 >
                   <div className="flex items-center gap-8">
                     <img className="w-12 h-12 rounded-full" src="https://cdn-icons-png.flaticon.com/512/3649/3649789.png" alt="" />
                     <div className="font-medium dark:text-white">
-                      <div className="text-base text-gray-500 dark:text-gray-400">{query?.messages[0]?.message}</div>
+                      <div className="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
+
                     </div>
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
@@ -144,14 +126,8 @@ const CustomerPage = () => {
           </div>
         </div>
       </div>
-      <ChatModal
-        isOpen={isModalOpen}
-        setModalOpen={setModalOpen}
-        onClose={() => setModalOpen(false)} // Close the modal
-        queryId={selectedQueryId} // Pass the selected query ID
-      />
     </div>
-  );
-};
+  )
+}
 
 export default CustomerPage;
