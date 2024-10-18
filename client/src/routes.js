@@ -8,4 +8,3 @@ export const getCurrentCustomerQueries = `${host}/api/query/customer`;
 export const getSlots = `${host}/api/query/slots`;
 export const getAdminQueries = `${host}/api/query/admin`;
 export const resolveQuery = `${host}/api/query/resolve`;
-export const getChat= `${host}/api/query/:queryId`;

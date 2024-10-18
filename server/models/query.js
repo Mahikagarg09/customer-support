@@ -10,27 +10,19 @@ const querySchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
-  messages: [
-    {
-      sender: {
-        type: String, // Indicates who sent the message (user or agent)
-        required: true,
-      },
-      message: {
-        type: String, // The actual message text
-        required: true,
-      },
-    },
-  ],
-  requested: {
-    type: String,//which agent is requested
+  message: {//message or query by user
+    type: String,
+    required: true,
+  },
+  requested: {//the agent for this query
+    type: String,
     required: false,
     default: "",
   },
-  resolved: {
-    type: Boolean,//whether query has beeen resolved or not
+  resolved: {//the message where agent resolves query
+    type: String,
     required: false,
-    default: false
+    default: "",
   },
 });
 
