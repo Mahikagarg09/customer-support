@@ -54,7 +54,7 @@ const AdminPage = () => {
   );
 
   // Handle get slots button click
-  const getSlots = async () => {
+  const getAgentSlots = async () => {
     try {
       const ids = queries.slice(0, 5).map((query) => query._id);
       await axios.post(getSlots, {
@@ -64,6 +64,7 @@ const AdminPage = () => {
       navigate("/toResolve");
       toast.success("Queries assigned successfully");
     } catch (error) {
+      console.log(error)
       toast.error("Failed to assign queries");
     }
   };
@@ -80,7 +81,7 @@ const AdminPage = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="flex justify-end">
-          <button className="py-2 px-4 mt-2 bg-blue-500 text-white rounded-lg" onClick={getSlots}>
+          <button className="py-2 px-4 mt-2 bg-blue-500 text-white rounded-lg" onClick={getAgentSlots}>
             Get Slots
           </button>
         </div>
