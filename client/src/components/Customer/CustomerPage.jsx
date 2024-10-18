@@ -8,6 +8,10 @@ import { host, addQuery, getCurrentCustomerQueries } from "../../routes"
 const socket = io(host);
 
 const CustomerPage = () => {
+
+  const id = JSON.parse(
+    localStorage.getItem("branchInternational")
+  )._id;
   // State for the query input and past queries
   const [currentQuery, setCurrentQuery] = useState('');
   const [pastQueries, setPastQueries] = useState([]);
@@ -17,7 +21,7 @@ const CustomerPage = () => {
     const fetchQueries = async () => {
       try {
         const response = await axios.post(getCurrentCustomerQueries, {
-          userId: "yourUserId", // Replace with the actual user ID
+          userId: `${id}` // Replace with the actual user ID
         });
         setPastQueries(response.data.queries || []);
       } catch (error) {
@@ -36,7 +40,7 @@ const CustomerPage = () => {
     return () => {
       socket.off('message'); // Clean up the listener
     };
-  }, []);
+  }, [id]);
 
   // Handle query submission
   const handleSubmit = async (e) => {
@@ -48,14 +52,14 @@ const CustomerPage = () => {
 
     try {
       const response = await axios.post(addQuery, {
-        userId: "yourUserId", // Replace with the actual user ID
+        userId: `${id}`, // Replace with the actual user ID
         sender: 'customer',
         message: currentQuery,
       });
 
       if (response.data.message === 'Message saved successfully') {
         // Emit the message through Socket.io
-        socket.emit('message', { userId: "yourUserId", message: currentQuery });
+        socket.emit('message', { userId: `${id}`, message: currentQuery });
 
         // Clear the input field
         setCurrentQuery('');
