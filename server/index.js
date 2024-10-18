@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv= require('dotenv').config();
 
 const userRoute = require("./routes/user");
+const queryRoute = require("./routes/query");
 
 const app = express();
 const http = require("http").createServer(app);
@@ -18,6 +19,7 @@ app.use(express.json());
 
 //routes
 app.use("/api/user", userRoute);
+app.use("/api/query",queryRoute);
 
 // MongoDB Connection
 mongoose
