@@ -97,9 +97,9 @@ const AdminPage = () => {
                 <div className="font-medium dark:text-white">
                   <div className="text-blue-950 text-xl">{query.userId}</div>
                   <div className="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
                 </div>
               </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
             </div>
           ))
         ) : (

@@ -40,10 +40,10 @@ const Navbar = () => {
                                 {isAdmin ? "All Queries" : "My Queries"}
                             </Link>
                             <Link
-                                // to={`${isAdmin ? "/toResolve" : "/resolve"}`}
+                                to={`${isAdmin ? "/handleQuery" : "/handled"}`}
                                 className="font-medium  hover:text-white text-gray-400"
                             >
-                                {isAdmin ? "To Resolve" : "Resolved Queries"}
+                                {isAdmin ? "Process Query" : "Processed Queries"}
                             </Link>
                         </div>
                     </div>
