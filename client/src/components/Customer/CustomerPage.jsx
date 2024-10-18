@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { host, addQuery, getCurrentCustomerQueries } from "../../routes"
+import ChatModal from "../Chat";
 
 const socket = io(host);
 
@@ -16,6 +17,14 @@ const CustomerPage = () => {
   const [currentQuery, setCurrentQuery] = useState('');
   const [pastQueries, setPastQueries] = useState([]);
 
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedQueryId, setSelectedQueryId] = useState(null);
+
+  const handleOpenModal = (queryId) => {
+    setSelectedQueryId(queryId); // Set the query ID
+    setModalOpen(true); // Open the modal
+  };
+
   // Fetch past queries on component mount
   useEffect(() => {
     const fetchQueries = async () => {
@@ -24,6 +33,7 @@ const CustomerPage = () => {
           userId: `${id}` // Replace with the actual user ID
         });
         setPastQueries(response.data.queries || []);
+        console.log(pastQueries)
       } catch (error) {
         console.error("Error fetching past queries:", error);
         toast.error("Failed to load past queries.");
@@ -40,7 +50,7 @@ const CustomerPage = () => {
     return () => {
       socket.off('message'); // Clean up the listener
     };
-  }, [id]);
+  }, [id, pastQueries]);
 
   // Handle query submission
   const handleSubmit = async (e) => {
@@ -53,7 +63,7 @@ const CustomerPage = () => {
     try {
       const response = await axios.post(addQuery, {
         userId: `${id}`, // Replace with the actual user ID
-        sender: 'customer',
+        sender: `${id}`,
         message: currentQuery,
       });
 
@@ -118,12 +128,13 @@ const CustomerPage = () => {
               pastQueries.map((query, index) => (
                 <div
                   key={index}
-                  className="border-2 border-gray-200 rounded-lg p-3 flex justify-between mb-3"
+                  className="border-2 border-gray-200 rounded-lg p-3 flex justify-between mb-3 cursor-pointer"
+                  onClick={() => handleOpenModal(query._id)}
                 >
                   <div className="flex items-center gap-8">
                     <img className="w-12 h-12 rounded-full" src="https://cdn-icons-png.flaticon.com/512/3649/3649789.png" alt="" />
                     <div className="font-medium dark:text-white">
-                      <div className="text-base text-gray-500 dark:text-gray-400">{query.message}</div>
+                      <div className="text-base text-gray-500 dark:text-gray-400">{query?.messages[0]?.message}</div>
                     </div>
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 float-right mt-3">{new Date(query.timestamp).toLocaleString()}</div>
@@ -133,6 +144,12 @@ const CustomerPage = () => {
           </div>
         </div>
       </div>
+      <ChatModal
+        isOpen={isModalOpen}
+        setModalOpen={setModalOpen}
+        onClose={() => setModalOpen(false)} // Close the modal
+        queryId={selectedQueryId} // Pass the selected query ID
+      />
     </div>
   );
 };
