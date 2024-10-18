@@ -1,5 +1,6 @@
 // Desc: Routes for the client side
-export const host = "http://localhost:5000";
+// export const host = "http://localhost:5000";
+export const host="https://customer-support-ykpg.onrender.com";
 export const signupRoute = `${host}/api/user/signup`;
 export const loginRoute = `${host}/api/user/login`;
 export const addQuery = `${host}/api/query/add`;
