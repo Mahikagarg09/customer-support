@@ -61,7 +61,7 @@ const AdminPage = () => {
         userId: username,
         ids,
       });
-      navigate("/toResolve");
+      navigate("/handleQuery");
       toast.success("Queries assigned successfully");
     } catch (error) {
       console.log(error)
