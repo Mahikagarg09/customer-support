@@ -16,7 +16,6 @@ This README provides comprehensive instructions for setting up, running, and tes
 - **Work Division**: Mechanism to ensure that multiple agents do not work on the same message simultaneously.
 - **Search Functionality**: Allows searching through incoming messages and customer inquiries.
 - **Real-time Updates**: Utilizes websockets to provide real-time message updates, enhancing responsiveness.
-
 ## Getting Started
 
 ### Prerequisites
@@ -68,8 +67,20 @@ Before you begin, ensure you have the following installed on your machine:
 - **Deployment**:
   - Render and Vercel
 
+## Snapshots
+![image](https://github.com/user-attachments/assets/f041fece-6c77-45c7-b940-7757b5b23699)
+
+**Customer Portal**
+![image](https://github.com/user-attachments/assets/18800a28-50cb-4445-b35b-e894d16f1f97)
+![image](https://github.com/user-attachments/assets/e96bd5c5-78da-497c-a30d-46d44171fc38)
+
+**Agent Portal**
+![image](https://github.com/user-attachments/assets/6c33d7f3-b25c-40ea-9230-a28cd60e2dc4)
+![image](https://github.com/user-attachments/assets/62b09b70-841e-4f0e-928f-64f504c9fba5)
+
 ## Live Application
 You can access the live version of the application here:
 
 [Branch Messaging Web App](https://customer-support-messaging.vercel.app/)
-```
+
+[Demo Video](https://www.loom.com/share/3d7952201ec84e1b915b0e82c4738612?sid=48371d75-0436-4689-84ff-fd3aca38f790)
