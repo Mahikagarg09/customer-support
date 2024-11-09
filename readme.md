@@ -1,7 +1,7 @@
-# Branch Messaging Web App
+# Customer Supoort Web App
 
 ## Introduction
-Welcome to the **Branch Messaging Web App**! This application is designed to efficiently manage a high volume of customer inquiries and facilitate seamless communication between customers and support agents. It enables multiple agents to log in simultaneously and respond to customer messages in real time. 
+Welcome to the **Customer Support Web App**! This application is designed to efficiently manage a high volume of customer inquiries and facilitate seamless communication between customers and support agents. It enables multiple agents to log in simultaneously and respond to customer messages in real time. 
 
 This README provides comprehensive instructions for setting up, running, and testing the application.
 
